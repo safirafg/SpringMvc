@@ -1,0 +1,35 @@
+package br.com.teste2Controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import br.com.teste2.Emp;
+import br.com.teste2Dao.EmpDao;
+
+@Controller
+
+public class EmpController {
+
+	@Autowired
+	EmpDao dao;
+
+	@GetMapping(value = "/viewemp/{pageid}")
+	public String edit(@PathVariable int pageid, Model m) {
+		int total = 5;
+		if (pageid == 1) {
+		} else {
+			pageid = (pageid - 1) * total + 1;
+		}
+		System.out.println(pageid);
+		List<Emp> list=dao.getEmployeesByPage(pageid,total); 
+		m.addAttribute("msg", list);
+		return "viewemp";
+
+	}
+}
